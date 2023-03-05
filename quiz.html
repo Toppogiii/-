@@ -2,11 +2,11 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>JavaScript Quiz</title>
+  <title>社会・歴史クイズ(仮)</title>
   <link rel="stylesheet" href="style.css"> </head>
 <body>
   <div class="container">
-    <h1>JavaScript Quiz</h1>
+    <h1>社会・歴史クイズ(仮)</h1>
     <div class="question-container">
       <div class="question"></div>
       <form> <label><input type="radio" name="answer" value="0" /> </label> <label><input type="radio" name="answer" value="1" /> </label> <label><input type="radio" name="answer" value="2" /> </label> <input type="submit" value="次へ" /> </form>
@@ -19,27 +19,27 @@
     // クイズの問題と答えを定義
       const questions = [
         {
-          question: "JavaScriptの変数宣言に使われるキーワードは何？",
+          question: "次のうち住所として存在しない地名は？",
           answers: [
-            { text: "var", correct: true },
-            { text: "let", correct: false },
-            { text: "const", correct: false },
+            { text: "恵比寿", correct: false },
+            { text: "原宿", correct: true },
+            { text: "代々木", correct: false },
           ],
         },
         {
-          question: "JavaScriptで配列を作るにはどうすればいい？",
+          question: "アメリカ大統領選挙はある曜日と決まっているが、それは何曜日？",
           answers: [
-            { text: "[]", correct: true },
-            { text: "{}", correct: false },
-            { text: "()", correct: false },
+            { text: "火曜日", correct: true },
+            { text: "金曜日", correct: false },
+            { text: "土曜日", correct: false },
           ],
         },
         {
-          question: "JavaScriptで文字列を結合するにはどうすればいい？",
+          question: "次のうち、もう一つ作られる予定だった建築物はどれ？",
           answers: [
-            { text: "+", correct: true },
-            { text: "-", correct: false },
-            { text: "*", correct: false },
+            { text: "サクラダファミリア", correct: false },
+            { text: "ビッグベン", correct: false },
+            { text: "タージマハル", correct: true },
           ],
         },
       ];
