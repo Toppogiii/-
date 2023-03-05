@@ -91,6 +91,10 @@ function markAnswer() {
     scoreElement.appendChild(buttonContainer);
     // 次へボタンを非表示にする
     form.style.display = "none";
+    // 全問正解だった場合、背景を緑色にする
+    if (score === questions.length) {
+    scoreElement.style.backgroundColor = "green";
+    }
   }
 
   function startTimer() {
