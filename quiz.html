@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>JavaScript Quiz</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 3rem;
+        margin-bottom: 2rem;
+      }
+
+      .question {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+      }
+
+      label:hover {
+        background-color: #e6e6e6;
+      }
+
+      input[type="submit"] {
+        display: block;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        border-radius: 5px;
+        border: none;
+        background-color: #0077cc;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #005fa3;
+      }
+
+      .score {
+        font-size: 2rem;
+        text-align: center;
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>JavaScript Quiz</h1>
+      <div class="question-container">
+        <div class="question"></div>
+        <form>
+          <label><input type="radio" name="answer" value="0" /> </label>
+          <label><input type="radio" name="answer" value="1" /> </label>
+          <label><input type="radio" name="answer" value="2" /> </label>
+          <input type="submit" value="次へ" />
+        </form>
+      </div>
+      <div class="score-container">
+        <div class="score"></div>
+      </div>
+    </div>
+
+    <script>
+      // クイズの問題と答えを定義
+      const questions = [
+        {
+          question: "JavaScriptの変数宣言に使われるキーワードは何？",
+          answers: [
+            { text: "var", correct: true },
+            { text: "let", correct: false },
+            { text: "const", correct: false },
+          ],
+        },
+        {
+          question: "JavaScriptで配列を作るにはどうすればいい？",
+          answers: [
+            { text: "[]", correct: true },
+            { text: "{}", correct: false },
+            { text: "()", correct: false },
+          ],
+        },
+        {
+          question: "JavaScriptで文字列を結合するにはどうすればいい？",
+          answers: [
+            { text: "+", correct: true },
+            { text: "-", correct: false },
+            { text: "*", correct: false },
+          ],
+        },
+      ];
+
+      let currentQuestion = 0;
+      let score = 0;
+      let secondsLeft = 3; // 制限時間を秒単位で設定
+
+      const questionElement = document.querySelector(".question");
+      const answerElements = document.querySelectorAll("label");
+      const scoreElement = document.querySelector(".score");
+
+      function showQuestion() {
+        const question = questions[currentQuestion];
+        questionElement.innerText = question.question;
+        answerElements.forEach((label, index) => {
+          label.innerHTML = `
+            <input type="radio" name="answer" value="${index}" />
+            ${question.answers[index].text}
+          `;
+        });
+      }
+
+      function markAnswer() {
+        answerElements.forEach((label) => {
+          if (label.children[0].checked) {
+            const answerIndex = parseInt(label.children[0].value);
+            const isCorrect = questions[currentQuestion].answers[answerIndex]
+              .correct;
+            if (isCorrect) {
+              score++;
+            }
+          }
+          // 選択を外す
+          label.children[0].checked = false;
+        });
+      }
+
+      function showScore() {
+        scoreElement.innerText = `Score: ${score} / ${questions.length}`;
+      }
+
+      function startTimer() {
+        const timerInterval = setInterval(() => {
+          secondsLeft--;
+          if (secondsLeft <= 0) {
+            clearInterval(timerInterval);
+            showScore();
+          }
+        }, 1000);
+      }
+
+      showQuestion();
+      startTimer();
+
+      const form = document.querySelector("form");
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        markAnswer();
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+          showQuestion();
+        } else {
+          clearInterval(startTimer);
+          showScore();
+        }
+      });
+
+      // 選択したラベルの背景を変更する
+      answerElements.forEach((label) => {
+        label.addEventListener("click", () => {
+          answerElements.forEach((label) => {
+            label.style.backgroundColor = "#f2f2f2";
+          });
+          label.style.backgroundColor = "#0077cc";
+        });
+      });
+    </script>
+  </body>
+</html>
