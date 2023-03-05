@@ -78,6 +78,7 @@ function markAnswer() {
 }
 
   function showScore() {
+    questionElement.innerText = "結果";
     scoreElement.innerText = `Score: ${score} / ${questions.length}`;
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("button-container");
