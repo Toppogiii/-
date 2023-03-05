@@ -60,70 +60,78 @@
       const scoreElement = document.querySelector(".score");
 
       function showQuestion() {
-        const question = questions[currentQuestion];
-        questionElement.innerText = question.question;
-        answerElements.forEach((label, index) => {
-          label.innerHTML = `
-            <input type="radio" name="answer" value="${index}" />
-            ${question.answers[index].text}
-          `;
-        });
-      }
+  const question = questions[currentQuestion];
+  questionElement.innerText = question.question;
+  answerElements.forEach((label, index) => {
+    label.innerHTML = `
+      <input type="radio" name="answer" value="${index}" />
+      ${question.answers[index].text}
+    `;
+  });
+}
 
-      function markAnswer() {
-        answerElements.forEach((label) => {
-          if (label.children[0].checked) {
-            const answerIndex = parseInt(label.children[0].value);
-            const isCorrect = questions[currentQuestion].answers[answerIndex]
-              .correct;
-            if (isCorrect) {
-              score++;
-            }
-          }
-          // 選択を外す
-          label.children[0].checked = false;
-        });
+function markAnswer() {
+  answerElements.forEach((label) => {
+    if (label.children[0].checked) {
+      const answerIndex = parseInt(label.children[0].value);
+      const isCorrect = questions[currentQuestion].answers[answerIndex].correct;
+      if (isCorrect) {
+        score++;
       }
+    }
+    // 選択を外す
+    label.children[0].checked = false;
+  });
+}
 
-      function showScore() {
-        scoreElement.innerText = `Score: ${score} / ${questions.length}`;
+  function showScore() {
+    scoreElement.innerText = `Score: ${score} / ${questions.length}`;
+    const buttonContainer = document.createElement("div");
+    buttonContainer.classList.add("button-container");
+    const restartButton = document.createElement("button");
+    restartButton.innerText = "もう一度挑戦する";
+    restartButton.addEventListener("click", () => {
+      location.reload();
+    });
+    buttonContainer.appendChild(restartButton);
+    scoreElement.appendChild(buttonContainer);
+  }
+
+  function startTimer() {
+    const timerInterval = setInterval(() => {
+      secondsLeft--;
+      if (secondsLeft <= 0) {
+        clearInterval(timerInterval);
+        showScore();
       }
+    }, 1000);
+  }
 
-      function startTimer() {
-        const timerInterval = setInterval(() => {
-          secondsLeft--;
-          if (secondsLeft <= 0) {
-            clearInterval(timerInterval);
-            showScore();
-          }
-        }, 1000);
-      }
+  showQuestion();
+  startTimer();
 
+  const form = document.querySelector("form");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    markAnswer();
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
       showQuestion();
-      startTimer();
+    } else {
+      clearInterval(startTimer);
+      showScore();
+    }
+  });
 
-      const form = document.querySelector("form");
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        markAnswer();
-        currentQuestion++;
-        if (currentQuestion < questions.length) {
-          showQuestion();
-        } else {
-          clearInterval(startTimer);
-          showScore();
-        }
-      });
-
-      // 選択したラベルの背景を変更する
+  // 選択したラベルの背景を変更する
+  answerElements.forEach((label) => {
+    label.addEventListener("click", () => {
       answerElements.forEach((label) => {
-        label.addEventListener("click", () => {
-          answerElements.forEach((label) => {
-            label.style.backgroundColor = "#f2f2f2";
-          });
-          label.style.backgroundColor = "#0077cc";
-        });
+        label.style.backgroundColor = "#f2f2f2";
       });
-    </script>
-  </body>
+      label.style.backgroundColor = "#0077cc";
+    });
+  });
+</script>
+</body>
 </html>
